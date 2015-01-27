@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/lzrski/blob-upload",
   "devDependencies": {
+    "coffee-script": "^1.8.0",
     "del": "^1.1.1",
     "gulp": "^3.8.10",
     "gulp-coffee": "^2.2.0",

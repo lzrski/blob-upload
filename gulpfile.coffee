@@ -7,20 +7,21 @@ del     = require 'del'
 paths   =
   src : 'src/**/*.coffee'
   test: 'test/**/*.coffee'
+  dest: 'build'
 
 gulp.task 'clean', (done) ->
-  del 'lib', done
+  del paths.dest, done
 
 gulp.task 'build', ['clean'], ->
   gulp.src paths.src
     .pipe coffee()
-    .pipe gulp.dest 'lib'
+    .pipe gulp.dest paths.dest
 
 gulp.task 'watch', ->
   gulp.watch paths.src, ['build']
   gulp.watch [
-    'test/**/*'
-    'lib/**/*'
+    paths.test
+    paths.dest
   ], ['test']
 
 gulp.task 'test', ->
