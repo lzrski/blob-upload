@@ -1,3 +1,9 @@
+# Compiled .js code
+build
+
+# Compressed NPM package (to be published to npmjs.org)
+blob-upload-*.tgz
+
 # Logs
 logs
 *.log
