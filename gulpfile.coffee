@@ -7,7 +7,7 @@ path    = require 'path'
 
 paths   =
   src : 'src/**/*.coffee'
-  test: 'test/**/*.coffee'
+  test: 'test/*.coffee'
   dest: 'build/'
 
 gulp.task 'clean', (done) ->
