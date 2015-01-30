@@ -3,21 +3,19 @@ multer  = require 'multer'
 fs      = require 'fs'
 path    = require 'path'
 coffee  = require 'coffee-script'
+_       = require 'lodash'
 
 app = new express
 
-app.get '/', (req, res) ->
-  fs
-    .createReadStream path.resolve __dirname, 'index.html'
-    .pipe res.type 'text/html'
+app.use multer inMemory: yes
 
 app.get '/upload.js', (req, res) ->
   fs
     .createReadStream path.resolve __dirname, '../../build/index.js'
     .pipe res.type 'text/javascript'
 
-app.get '/test.js', (req, res) ->
-  fs.readFile (path.resolve __dirname, 'test.coffee'), 'utf-8', (error, code) ->
+app.get '/tests.js', (req, res) ->
+  fs.readFile (path.resolve __dirname, '../client/tests.coffee'), 'utf-8', (error, code) ->
     if error then return req.next error
     try
       res
@@ -25,6 +23,11 @@ app.get '/test.js', (req, res) ->
         .send coffee.compile code
     catch error
       req.next error
+
+app.use express.static path.resolve __dirname, '../client'
+
+app.post '/', (req, res) ->
+  res.json _.pick req, ['body', 'files']
 
 # Error handler
 app.use (error, req, res, done) ->

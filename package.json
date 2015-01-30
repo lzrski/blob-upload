@@ -37,5 +37,8 @@
     "gulp-mocha": "^2.0.0",
     "multer": "^0.1.7",
     "should": "^4.6.1"
+  },
+  "dependencies": {
+    "lodash": "^3.0.1"
   }
 }
