@@ -2,8 +2,6 @@
 { expect } = chai
 
 describe 'XHR FormData API', ->
-  it 'works', ->
-    expect(a: 'co').to.eql a: 'co'
 
   it 'can send simple object', (done) ->
     data =
@@ -49,4 +47,40 @@ describe 'XHR FormData API', ->
       expect(@status).to.eql 200
       expect(@responseType).to.eql 'json'
       expect(@response.body).to.eql data
+      do done
+
+  it 'can send blobs as files', (done) ->
+    data =
+      name: 'Katiusza'
+      age : '4'
+      toys: [
+        'sznurek'
+        'jajo'
+        'korek'
+      ]
+      anathem : new Blob [
+        'Bardzo mała jest nasza Katiucha'
+        'Mierzona od ucha do ucha.'
+        'Natomiast gdy jest mierzona'
+        'Od ucha do ogona'
+        'To nadal jest nieduża.'
+        'Ot, cała nasza katiusza!'
+      ], type: 'text/plain', fileName: 'anathem.txt'
+
+    form = new FormData
+    for key, value of data
+      if _.isArray value then for element in value
+        form.append key, element
+      else
+        form.append key, value
+
+    req = new XMLHttpRequest
+    req.responseType = 'json'
+    req.open 'post', 'http://localhost:8000'
+    req.send form
+    req.onload = ->
+      expect(@status).to.eql 200
+      expect(@responseType).to.eql 'json'
+      expect(@response.body).to.eql _.omit data, ['anathem']
+      expect(@response.files).to.be.an 'object'
       do done
