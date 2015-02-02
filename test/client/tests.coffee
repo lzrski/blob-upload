@@ -13,8 +13,12 @@ describe 'XHR FormData API', ->
       form.append key, value
 
     req = new XMLHttpRequest
+
+    # Response type must be set after request is opened.
+    # Otherwise IE will spit in your eye.
+    # See: https://connect.microsoft.com/IE/feedback/details/795580
+    req.open 'post', '/'
     req.responseType = 'json'
-    req.open 'post', 'http://localhost:8000'
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
@@ -40,8 +44,8 @@ describe 'XHR FormData API', ->
         form.append key, value
 
     req = new XMLHttpRequest
+    req.open 'post', '/'
     req.responseType = 'json'
-    req.open 'post', 'http://localhost:8000'
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
@@ -75,8 +79,8 @@ describe 'XHR FormData API', ->
         form.append key, value
 
     req = new XMLHttpRequest
+    req.open 'post', '/'
     req.responseType = 'json'
-    req.open 'post', 'http://localhost:8000'
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
