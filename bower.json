@@ -1,0 +1,26 @@
+{
+  "name": "blob-upload",
+  "version": "0.0.0",
+  "homepage": "https://github.com/lzrski/blob-upload",
+  "authors": [
+    "Tadeusz Łazurski <tadeusz@lazurski.pl>"
+  ],
+  "description": "Blob upload test suit",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "GPL3",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chai": "~1.10.0",
+    "lodash": "~3.0.1",
+    "mocha": "~2.1.0"
+  }
+}
