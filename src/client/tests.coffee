@@ -86,5 +86,12 @@ describe 'XHR FormData API', ->
       expect(@status).to.eql 200
       expect(@responseType).to.eql 'json'
       expect(@response.body).to.eql _.omit data, ['anathem']
-      expect(@response.files).to.be.an 'object'
+      expect(@response.files).to
+        .be.an 'object'
+        .and.have.property 'anathem'
+
+      expect(@response.files.anathem).to
+        .be.an 'object'
+        .and.have.property 'size', data.anathem.size
+        
       do done
