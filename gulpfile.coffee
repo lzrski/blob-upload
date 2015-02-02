@@ -7,6 +7,7 @@ del     = require 'del'
 path    = require 'path'
 seq     = require 'run-sequence'
 srcmaps = require 'gulp-sourcemaps'
+cp      = require 'child_process'
 
 paths   =
   src   : 'src/**/*.coffee'
@@ -26,28 +27,26 @@ gulp.task 'assets', ->
   gulp.src paths.assets
     .pipe gulp.dest paths.dest
 
-gulp.task 'build', ->
-  seq 'clean', [
-    'bower'
-    'assets'
-  ], ->
-    gulp.src paths.src
-      .pipe srcmaps.init()
-      .pipe coffee()
-      .pipe srcmaps.write()
-      .pipe gulp.dest paths.dest
+gulp.task 'install', ['assets', 'bower']
 
-gulp.task 'watch', ['build'], ->
-  gulp.watch paths.src, ['build']
-  gulp.watch [
-    paths.test
-    path.join paths.dest, '**/*'
-  ], ['test']
+gulp.task 'build', ['install'], ->
+  gulp.src paths.src
+    .pipe srcmaps.init()
+    .pipe coffee()
+    .pipe srcmaps.write()
+    .pipe gulp.dest paths.dest
 
-gulp.task 'test', ->
-  gulp.src paths.test
-    .pipe mocha
-      compilers : 'coffee:coffee-script'
-      reporter  : 'spec'
+server = null
+gulp.task 'serve', ->
+  if server
+    do server.kill
+    server = null
+  server = cp.fork 'build/server'
+
+
+gulp.task 'watch', ->
+  seq 'clean', 'build', 'serve', ->
+    gulp.watch paths.src, ->
+      seq 'clean', 'build', 'serve'
 
 gulp.task 'default', ['watch']
