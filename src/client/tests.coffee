@@ -62,14 +62,14 @@ describe 'XHR FormData API', ->
         'jajo'
         'korek'
       ]
-      anathem : new Blob [
+      anthem : new Blob [
         'Bardzo mała jest nasza Katiucha'
         'Mierzona od ucha do ucha.'
         'Natomiast gdy jest mierzona'
         'Od ucha do ogona'
         'To nadal jest nieduża.'
         'Ot, cała nasza katiusza!'
-      ], type: 'text/plain', fileName: 'anathem.txt'
+      ], type: 'text/plain', fileName: 'anthem.txt'
 
     form = new FormData
     for key, value of data
@@ -85,13 +85,13 @@ describe 'XHR FormData API', ->
     req.onload = ->
       expect(@status).to.eql 200
       expect(@responseType).to.eql 'json'
-      expect(@response.body).to.eql _.omit data, ['anathem']
+      expect(@response.body).to.eql _.omit data, ['anthem']
       expect(@response.files).to
         .be.an 'object'
-        .and.have.property 'anathem'
+        .and.have.property 'anthem'
 
-      expect(@response.files.anathem).to
+      expect(@response.files.anthem).to
         .be.an 'object'
-        .and.have.property 'size', data.anathem.size
-        
+        .and.have.property 'size', data.anthem.size
+
       do done
