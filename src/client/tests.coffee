@@ -91,7 +91,6 @@ describe 'XHR FormData API', ->
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
-      expect(@responseType).to.eql 'json'
       expect(@response.body).to.eql data
       do done
 
@@ -118,7 +117,6 @@ describe 'XHR FormData API', ->
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
-      expect(@responseType).to.eql 'json'
       expect(@response.body).to.eql data
       do done
 
@@ -153,7 +151,6 @@ describe 'XHR FormData API', ->
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
-      expect(@responseType).to.eql 'json'
       expect(@response.body).to.eql _.omit data, ['anthem']
       expect(@response.files).to
         .be.an 'object'
