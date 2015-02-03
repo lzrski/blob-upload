@@ -91,6 +91,12 @@ describe 'XHR FormData API', ->
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
+
+      # IE11 and Safari 7 doesn't support xhr.responseType = 'json'.
+      # See: http://stackoverflow.com/a/9845704/1151982
+      # Let's convert it if necessary.
+      if typeof @response is 'string' then @response = JSON.parse @response
+
       expect @response
         .to.be.an 'object'
         .and.have.property 'body'
@@ -120,6 +126,11 @@ describe 'XHR FormData API', ->
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
+
+      # IE11 and Safari 7 doesn't support xhr.responseType = 'json'.
+      # Let's convert it if necessary.
+      if typeof @response is 'string' then @response = JSON.parse @response
+
       expect @response
         .to.be.an 'object'
         .and.have.property 'body'
@@ -158,6 +169,11 @@ describe 'XHR FormData API', ->
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
+
+      # IE11 and Safari 7 doesn't support xhr.responseType = 'json'.
+      # Let's convert it if necessary.
+      if typeof @response is 'string' then @response = JSON.parse @response
+
       expect @response
         .to.be.an 'object'
         .and.have.property 'body'
