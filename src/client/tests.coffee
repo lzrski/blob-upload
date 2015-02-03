@@ -94,13 +94,17 @@ describe 'XHR FormData API', ->
 
       # IE11 and Safari 7 doesn't support xhr.responseType = 'json'.
       # See: http://stackoverflow.com/a/9845704/1151982
-      # Let's convert it if necessary.
-      if typeof @response is 'string' then @response = JSON.parse @response
+      # Let's make sure that we work on an object, not a string.
+      # Note that xhr.response is read-only in IE
+      # See: https://msdn.microsoft.com/en-us/library/ie/hh872881(v=vs.85).aspx
+      {response} = @
+      if typeof response is 'string' then response = JSON.parse response
 
-      expect @response
+      expect response
         .to.be.an 'object'
         .and.have.property 'body'
         .that.eql data
+
       do done
 
   it 'can send object with nested array', (done) ->
@@ -129,9 +133,10 @@ describe 'XHR FormData API', ->
 
       # IE11 and Safari 7 doesn't support xhr.responseType = 'json'.
       # Let's convert it if necessary.
-      if typeof @response is 'string' then @response = JSON.parse @response
+      {response} = @
+      if typeof response is 'string' then response = JSON.parse response
 
-      expect @response
+      expect response
         .to.be.an 'object'
         .and.have.property 'body'
         .that.eql data
@@ -172,14 +177,15 @@ describe 'XHR FormData API', ->
 
       # IE11 and Safari 7 doesn't support xhr.responseType = 'json'.
       # Let's convert it if necessary.
-      if typeof @response is 'string' then @response = JSON.parse @response
+      {response} = @
+      if typeof response is 'string' then response = JSON.parse response
 
-      expect @response
+      expect response
         .to.be.an 'object'
         .and.have.property 'body'
         .that.eql _.omit data, ['anthem']
 
-      expect @response
+      expect response
         .be.an 'object'
         .and.have.property 'files'
         .that.is.an 'object'
