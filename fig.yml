@@ -1,0 +1,6 @@
+web:
+  image       : "dockerfile/nodejs"
+  volumes     : [".:/app"]
+  working_dir : "/app"
+  command     : "node build/server"
+  ports       : ["7367:8000"]
