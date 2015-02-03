@@ -95,3 +95,37 @@ describe 'XHR FormData API', ->
         .and.have.property 'size', data.anthem.size
 
       do done
+
+describe 'jQuery + FormData', ->
+  # See: https://developer.mozilla.org/en-US/docs/Web/Guide/Using_FormData_Objects
+  it 'can send simple FormData object', (done) ->
+    data =
+      name: 'Katiusza'
+      age : '4' # Everything is converted to string by multipart form data enc.
+
+    form = new FormData
+    for key, value of data
+      form.append key, value
+
+    jQuery
+      .ajax
+        url         : '/'
+        data        : form
+        type        : 'POST'
+        processData : no
+        contentType : no
+      .done (res) ->
+        expect(res).to
+          .be.an 'object'
+          .and.have.keys [
+            'body'
+            'files'
+          ]
+        expect(res.body).to
+          .be.an 'object'
+          .and.have.keys [
+            'name'
+            'age'
+          ]
+
+        do done
