@@ -149,7 +149,7 @@ describe 'jQuery + FormData', ->
         Felix Lee
       """.split("\n"),
         type: 'text/plain'
-        fileName: 'anthem.txt'
+        fileName: 'George.txt'
 
     form = new FormData
     for key, value of data
@@ -187,5 +187,68 @@ describe 'jQuery + FormData', ->
         expect(res.files.image).to
           .be.an 'object'
           .and.have.property 'size', data.image.size
+
+        do done
+
+  it 'can use data from html form', (done) ->
+    form = new FormData $('form')[0]
+
+    # More cool cats here: http://www.asciiworld.com/-Cats-.html
+    image = """
+      |                      ,/\,,,,/\,.
+      |                     =          =,
+      |                    =` '<Q> <Q>'  =,
+      |         ,=~~~~~~~~~`=     Y    =,`;,
+      |       ,='            // :-^-; \\  `;
+      |     ,='       `      ,,,,.'       :;
+      |     ;,        '`          ':      `;
+      |     ;`         ;',          ::,   ;;
+      |     '\`   `,`';'`'`;`'`;';,  `; ':;
+      |      '\`  '`\;~~~;/~~;~;/\`,  ';'`;
+      |      /#\`  `'\#############)),';~#\
+      |     /##\`  '`\\############))_;####\
+      |    |###\`'`'\\MMMMMMMMMMMMMMMMMMMMMM|
+      |    |NNNN\`'`\\NNNNNNNNNNNNNNNNNNNNNN|
+      |    |YYYYY`\\\`YYYYYYYYYYYYYYYYYYYYYY|
+      |    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      |    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      |    ::::::::::::::::::::::::::::::::::
+      |----''''''''''''''''''''''''''''''''''----
+    """
+
+    blob = new Blob image.split("\n"),
+      type    : 'text/plain'
+      filename: 'Scoobie.txt'
+
+    form.append 'image', blob
+
+    jQuery
+      .ajax
+        url         : '/'
+        data        : form
+        type        : 'POST'
+        processData : no
+        contentType : no
+      .done (res) ->
+        expect(res).to
+          .be.an 'object'
+          .and.have.keys [
+            'body'
+            'files'
+          ]
+        expect(res.body).to
+          .be.an 'object'
+          .and.have.keys [
+            'name'
+            'weight'
+          ]
+
+        expect(res.files).to
+          .be.an 'object'
+          .and.have.property 'image'
+
+        expect(res.files.image).to
+          .be.an 'object'
+          .and.have.property 'size', blob.size
 
         do done

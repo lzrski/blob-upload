@@ -8,7 +8,16 @@
   </head>
   <body>
 
+
     <div id="mocha"></div>
+    <div id='form' style='margin: 0 60px'>
+      <form action="/">
+        <h3>Example form (read only)</h3>
+        <p><input readonly type="number" name="weight" value=6></p>
+        <p><input readonly type="text" name='name' value='Scoobie'></p>
+      </form>
+    </div>
+
 
     <script src="/mocha/mocha.js"></script>
     <script src="/jQuery/dist/jquery.min.js"></script>
@@ -18,9 +27,8 @@
       mocha.setup('bdd')
     </script>
     <script src="tests.js"></script>
-    <script src="upload.js"></script>
     <script>
-      mocha.run();
+      $(function() {mocha.run();})
     </script>
   </body>
 </html>

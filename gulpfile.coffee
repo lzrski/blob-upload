@@ -45,8 +45,8 @@ gulp.task 'serve', ->
 
 
 gulp.task 'watch', ->
-  seq 'clean', 'build', 'serve', ->
-    gulp.watch paths.src, ->
-      seq 'clean', 'build', 'serve'
+  seq 'clean', 'install', 'build', 'serve', ->
+    gulp.watch [paths.src, paths.assets], ->
+      seq 'clean', 'install', 'build', 'serve'
 
 gulp.task 'default', ['watch']
