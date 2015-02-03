@@ -1,6 +1,20 @@
 # Test suit to be ran in browser
 { expect } = chai
 
+describe 'This browser', ->
+  it 'supports Blob', ->
+    blob = new Blob ['Czy Blob to ładne imię dla kota?']
+    expect blob
+      .to.be.an 'object'
+      .and.have.property 'size'
+
+  it "let's blob have type", ->
+    blob = new Blob ['Raczej dla psa!'], type: 'text/plain'
+    expect blob
+      .to.be.an 'object'
+      .and.have.property 'size'
+
+
 describe 'XHR FormData API', ->
 
   it 'can send simple object', (done) ->
@@ -69,7 +83,7 @@ describe 'XHR FormData API', ->
         'Od ucha do ogona'
         'To nadal jest nieduża.'
         'Ot, cała nasza katiusza!'
-      ], type: 'text/plain', fileName: 'anthem.txt'
+      ], type: 'text/plain'
 
     form = new FormData
     for key, value of data
@@ -149,7 +163,6 @@ describe 'jQuery + FormData', ->
         Felix Lee
       """.split("\n"),
         type: 'text/plain'
-        fileName: 'George.txt'
 
     form = new FormData
     for key, value of data
@@ -218,7 +231,6 @@ describe 'jQuery + FormData', ->
 
     blob = new Blob image.split("\n"),
       type    : 'text/plain'
-      filename: 'Scoobie.txt'
 
     form.append 'image', blob
 
