@@ -14,6 +14,61 @@ describe 'This browser', ->
       .to.be.an 'object'
       .and.have.property 'size'
 
+  it 'supports FormData API', ->
+    data = new FormData
+    expect data
+      .to.be.an 'object'
+      .and.have.property 'append'
+      .that.is.a 'function'
+
+    data.append 'what', 'a Cat'
+    data.append 'where', 'in a box'
+
+    expect data
+      .to.be.an 'object'
+
+  it "can create a FormData from an HTML form", ->
+    form = document.getElementById 'sample-form'
+    data = new FormData form
+
+    expect data
+      .to.be.an 'object'
+      .and.to.have.property 'append'
+      .that.is.a 'function'
+
+  it "allows a Blob to be appended to FormData instance", ->
+    blob = new Blob [
+      'Jak się Pani podoba mój krokodyl?'
+      'Bardzo ładnie chodzi na smyczy!'
+      'Prawda :)'
+    ], type: 'text/plain'
+    expect blob
+      .to.be.an 'object'
+      .and.have.property 'size'
+
+    data = new FormData
+    data.append 'dialog', blob
+
+  it "can append a Blob to a FormData created from an HTML form", ->
+    form = document.getElementById 'sample-form'
+    data = new FormData form
+
+    expect data
+      .to.be.an 'object'
+      .and.to.have.property 'append'
+      .that.is.a 'function'
+
+    blob = new Blob [
+      'A czy ten krokodyl jast grzeczny?'
+      'Droga Pani - najzupełniej! Gryzie tylko listonosza i sznur od żelazka.'
+      'To rozkosznie! Jak się nazywa?'
+      'Blob!'
+    ], type: 'text/plain'
+    expect blob
+      .to.be.an 'object'
+      .and.have.property 'size'
+
+    data.append 'dialog', blob
 
 describe 'XHR FormData API', ->
 
