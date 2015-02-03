@@ -91,7 +91,10 @@ describe 'XHR FormData API', ->
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
-      expect(@response.body).to.eql data
+      expect @response
+        .to.be.an 'object'
+        .and.have.property 'body'
+        .that.eql data
       do done
 
   it 'can send object with nested array', (done) ->
@@ -117,7 +120,11 @@ describe 'XHR FormData API', ->
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
-      expect(@response.body).to.eql data
+      expect @response
+        .to.be.an 'object'
+        .and.have.property 'body'
+        .that.eql data
+
       do done
 
   it 'can send blobs as files', (done) ->
@@ -151,14 +158,19 @@ describe 'XHR FormData API', ->
     req.send form
     req.onload = ->
       expect(@status).to.eql 200
-      expect(@response.body).to.eql _.omit data, ['anthem']
-      expect(@response.files).to
-        .be.an 'object'
-        .and.have.property 'anthem'
+      expect @response
+        .to.be.an 'object'
+        .and.have.property 'body'
+        .that.eql _.omit data, ['anthem']
 
-      expect(@response.files.anthem).to
+      expect @response
         .be.an 'object'
-        .and.have.property 'size', data.anthem.size
+        .and.have.property 'files'
+        .that.is.an 'object'
+        .and.have.property 'anthem'
+        .that.is.an 'object'
+        .and.have.property 'size'
+        .that.eql data.anthem.size
 
       do done
 
@@ -248,10 +260,9 @@ describe 'jQuery + FormData', ->
         expect(res.files).to
           .be.an 'object'
           .and.have.property 'image'
-
-        expect(res.files.image).to
-          .be.an 'object'
-          .and.have.property 'size', data.image.size
+          .that.is.an 'object'
+          .and.have.property 'size'
+          .that.eql data.image.size
 
         do done
 
@@ -310,9 +321,7 @@ describe 'jQuery + FormData', ->
         expect(res.files).to
           .be.an 'object'
           .and.have.property 'image'
-
-        expect(res.files.image).to
-          .be.an 'object'
+          .that.is.an 'object'
           .and.have.property 'size', blob.size
 
         do done
