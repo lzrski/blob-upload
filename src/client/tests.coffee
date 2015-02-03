@@ -129,3 +129,63 @@ describe 'jQuery + FormData', ->
           ]
 
         do done
+
+  it 'can send blobs as files', (done) ->
+    data =
+      name: 'George'
+      age : '4'
+      toys: [
+        'sznurek'
+        'kocyk'
+        'pudło'
+      ]
+      # Cool cats here: https://user.xmission.com/~emailbox/ascii_cats.htm
+      image: new Blob """
+                      __..--''``---....___   _..._    __
+            /// //_.-'    .-/";  `        ``<._  ``.''_ `. / // /
+           ///_.-' _..--.'_    \                    `( ) ) // //
+           / (_..-' // (< _     ;_..__               ; `' / ///
+            / // // //  `-._,_)' // / ``--...____..-' /// / //
+        Felix Lee
+      """.split("\n"),
+        type: 'text/plain'
+        fileName: 'anthem.txt'
+
+    form = new FormData
+    for key, value of data
+      if _.isArray value then for element in value
+        form.append key, element
+      else
+        form.append key, value
+
+    jQuery
+      .ajax
+        url         : '/'
+        data        : form
+        type        : 'POST'
+        processData : no
+        contentType : no
+      .done (res) ->
+        expect(res).to
+          .be.an 'object'
+          .and.have.keys [
+            'body'
+            'files'
+          ]
+        expect(res.body).to
+          .be.an 'object'
+          .and.have.keys [
+            'name'
+            'age'
+            'toys'
+          ]
+
+        expect(res.files).to
+          .be.an 'object'
+          .and.have.property 'image'
+
+        expect(res.files.image).to
+          .be.an 'object'
+          .and.have.property 'size', data.image.size
+
+        do done
