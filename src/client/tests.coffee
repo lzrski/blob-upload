@@ -363,4 +363,66 @@ describe 'jQuery + FormData', ->
           .that.is.eql ascii
 
         do done
-        
+
+  it 'can upload arbitrary data encoded as JSON', (done) ->
+    # Given any object
+    data =
+      name  : 'Pimpek'
+      toys  : [
+        'kłębęk'
+        'mysza'
+      ]
+
+    # Serialize it as JSON string
+    json = JSON.stringify data
+
+    # And make a blob with it's contents
+    blob = new Blob [ json ], type: 'application/json'
+
+    # Create FormData object and append the blob to it
+    form = new FormData
+    form.append 'data', blob
+
+    # Send it using jQuery.ajax
+    jQuery
+      .ajax
+        url         : '/'
+        data        : form
+        type        : 'POST'
+        processData : no # This...
+        contentType : no # ...and this is important.
+      .done (res) ->
+        # The server receive it as a if it was a file
+        # Here we have sample response from our test server.
+        # See /src/server/index.coffee for more information.
+        expect(res).to
+          .be.an 'object'
+          .and.have.property 'files'
+          .that.is.an 'object'
+          .and.have.property 'data'
+          .that.is.an 'object'
+          .and.have.property 'size'
+          .that.is.eql blob.size
+
+        ###*
+        # Our server also decodes each file and responds with it's text content.
+        # Again see /src/server/index.coffee for better insight.
+        expect(res).to
+          .be.an 'object'
+          .and.have.property 'decoded'
+          .that.is.an 'object'
+          .and.have.property 'data'
+          .that.is.a 'string'
+          .and.is.eql json
+
+        ###*
+        # The object stored in a file is intact.
+        # We can parse it as JSON and get our data back!
+        ###
+        parsed = JSON.parse res.decoded.data
+        expect parsed
+          .to.be.an 'object'
+          .and.to.be.eql data
+
+        # Simple!
+        do done
