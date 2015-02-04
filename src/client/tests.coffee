@@ -423,3 +423,38 @@ describe 'jQuery + FormData', ->
 
         # Simple!
         do done
+
+describe 'PostMessage API', ->
+  it 'can request and receive a data from another application', (done) ->
+    # An iframe in parent document
+    frame = document.getElementById 'appframe'
+    app   = frame.contentWindow
+
+    # Request data from embeded application
+    # See src/client/application.coffee for more details
+    # Target origin should be given instead of *
+    # It's only for test purposes.
+    app.postMessage 'get data', '*'
+
+    # Wait for response
+    window.addEventListener 'message', (event) ->
+
+      # Always check for origin to avoid cross site scripting vulnerabilities
+      if event.origin isnt 'https://blob-upload.lazurski.pl/application.html'
+        console.error 'This PostMessage event should be ignored. For test purposes it is not.'
+        # return
+
+      # Data sent via PostMessage should be assigned to event.data
+      expect event.data
+        .to.be.an 'object'
+        .and.have.property 'staff'
+        .that.is.an 'object'
+        .and.have.property 'sales'
+        .that.is.an 'array'
+        .and.is.eql [
+          'Katie Cat'
+          'ms. Ocelot'
+          'Snow, Leopold'
+        ]
+
+      do done
