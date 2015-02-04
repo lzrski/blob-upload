@@ -12,7 +12,20 @@ app.use multer inMemory: yes
 app.use express.static path.resolve __dirname, '../client'
 
 app.post '/', (req, res) ->
-  res.json _.pick req, ['body', 'files']
+  {
+    body
+    files
+  } = req
+
+  decoded = {}
+  for name, file of files
+    decoded[name] = file.buffer.toString 'utf-8'
+
+  res.json {
+    body
+    files
+    decoded
+  }
 
 # Error handler
 app.use (error, req, res, done) ->

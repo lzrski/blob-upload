@@ -217,12 +217,8 @@ describe 'jQuery + FormData', ->
       .done (res) ->
         expect(res).to
           .be.an 'object'
-          .and.have.keys [
-            'body'
-            'files'
-          ]
-        expect(res.body).to
-          .be.an 'object'
+          .and.have.property 'body'
+          .that.is.an 'object'
           .and.have.keys [
             'name'
             'age'
@@ -231,6 +227,22 @@ describe 'jQuery + FormData', ->
         do done
 
   it 'can send blobs as files', (done) ->
+    # Cool cats here: https://user.xmission.com/~emailbox/ascii_cats.htm
+    ascii = """
+      |               __..--''``---....___   _..._    __
+      |     /// //_.-'    .-/";  `        ``<._  ``.''_ `. / // /
+      |    ///_.-' _..--.'_    \                    `( ) ) // //
+      |    / (_..-' // (< _     ;_..__               ; `' / ///
+      |     / // // //  `-._,_)' // / ``--...____..-' /// / //
+      | Felix Lee
+    """
+
+    # Preserve delimeters while splitting string. Neat :)
+    # See: http://stackoverflow.com/a/12001989/1151982
+    lines = ascii.split /(?=\n)/
+
+    blob  = new Blob lines, type: 'text/plain'
+
     data =
       name: 'George'
       age : '4'
@@ -239,16 +251,7 @@ describe 'jQuery + FormData', ->
         'kocyk'
         'pudło'
       ]
-      # Cool cats here: https://user.xmission.com/~emailbox/ascii_cats.htm
-      image: new Blob """
-                      __..--''``---....___   _..._    __
-            /// //_.-'    .-/";  `        ``<._  ``.''_ `. / // /
-           ///_.-' _..--.'_    \                    `( ) ) // //
-           / (_..-' // (< _     ;_..__               ; `' / ///
-            / // // //  `-._,_)' // / ``--...____..-' /// / //
-        Felix Lee
-      """.split("\n"),
-        type: 'text/plain'
+      image: blob
 
     form = new FormData
     for key, value of data
@@ -265,26 +268,32 @@ describe 'jQuery + FormData', ->
         processData : no
         contentType : no
       .done (res) ->
-        expect(res).to
-          .be.an 'object'
-          .and.have.keys [
-            'body'
-            'files'
-          ]
-        expect(res.body).to
-          .be.an 'object'
+        expect res
+          .to.be.an 'object'
+          .and.have.property 'body'
+          .that.is.an 'object'
           .and.have.keys [
             'name'
             'age'
             'toys'
           ]
 
-        expect(res.files).to
-          .be.an 'object'
+        expect res
+          .to.be.an 'object'
+          .and.have.property 'files'
+          .that.is.an 'object'
           .and.have.property 'image'
           .that.is.an 'object'
           .and.have.property 'size'
           .that.eql data.image.size
+
+        expect res
+          .to.be.an 'object'
+          .and.have.property 'decoded'
+          .that.is.an 'object'
+          .and.have.property 'image'
+          .that.is.an 'string'
+          .that.is.eql ascii
 
         do done
 
@@ -292,7 +301,7 @@ describe 'jQuery + FormData', ->
     form = new FormData $('form')[0]
 
     # More cool cats here: http://www.asciiworld.com/-Cats-.html
-    image = """
+    ascii = """
       |                      ,/\,,,,/\,.
       |                     =          =,
       |                    =` '<Q> <Q>'  =,
@@ -313,9 +322,8 @@ describe 'jQuery + FormData', ->
       |    ::::::::::::::::::::::::::::::::::
       |----''''''''''''''''''''''''''''''''''----
     """
-
-    blob = new Blob image.split("\n"),
-      type    : 'text/plain'
+    lines = ascii.split /(?=\n)/
+    blob  = new Blob lines, type: 'text/plain'
 
     form.append 'image', blob
 
@@ -327,23 +335,32 @@ describe 'jQuery + FormData', ->
         processData : no
         contentType : no
       .done (res) ->
-        expect(res).to
-          .be.an 'object'
-          .and.have.keys [
-            'body'
-            'files'
-          ]
-        expect(res.body).to
-          .be.an 'object'
+
+        expect res
+          .to.be.an 'object'
+          .and.have.property 'body'
+          .that.is.an 'object'
           .and.have.keys [
             'name'
             'weight'
           ]
 
-        expect(res.files).to
-          .be.an 'object'
+        expect res
+          .to.be.an 'object'
+          .and.have.property 'files'
+          .that.is.an 'object'
           .and.have.property 'image'
           .that.is.an 'object'
-          .and.have.property 'size', blob.size
+          .and.have.property 'size'
+          .that.eql blob.size
+
+        expect res
+          .to.be.an 'object'
+          .and.have.property 'decoded'
+          .that.is.an 'object'
+          .and.have.property 'image'
+          .that.is.an 'string'
+          .that.is.eql ascii
 
         do done
+        
