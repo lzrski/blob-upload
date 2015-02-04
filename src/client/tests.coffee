@@ -457,4 +457,55 @@ describe 'PostMessage API', ->
           'Snow, Leopold'
         ]
 
-      do done
+      # Now let's to send it to the server as a file
+      json = JSON.stringify event.data
+      blob = new Blob [json], type: 'application/json'
+
+      # Prepare form data from existing form
+      form = new FormData document.getElementById 'form'
+
+      # Append our blob
+      # it will be seen as a file by server
+      form.append 'data', blob
+
+      # Let's use jQuery.ajax
+      # it is most widely supported
+      jQuery
+        .ajax
+          url         : '/'
+          data        : form
+          type        : 'POST'
+          processData : no # This...
+          contentType : no # ...and this are important.
+        .done (res) ->
+          # The server receive it as a if it was a form with a file input
+          # Here we have sample response from our test server.
+          # See /src/server/index.coffee for more information.
+          expect(res).to
+            .be.an 'object'
+            .and.have.property 'files'
+            .that.is.an 'object'
+            .and.have.property 'data'
+            .that.is.an 'object'
+            .and.have.property 'size'
+            .that.is.eql blob.size
+
+          # Our server also decodes each file and responds with it's text content.
+          # Again see /src/server/index.coffee for better insight.
+          expect(res).to
+            .be.an 'object'
+            .and.have.property 'decoded'
+            .that.is.an 'object'
+            .and.have.property 'data'
+            .that.is.a 'string'
+            .and.is.eql json
+
+          # The object stored in a file is intact.
+          # We can parse it as JSON and get our data back!
+          parsed = JSON.parse res.decoded.data
+          expect parsed
+            .to.be.an 'object'
+            .and.to.eql event.data
+
+          # Simple!
+          do done
