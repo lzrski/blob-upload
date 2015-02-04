@@ -19,6 +19,11 @@
     </div>
 
     <!-- Polyfills -->
+    <!--
+      A blob polyfill is needed for some mobile browsers and older IEs.
+      The one from https://github.com/eligrey/Blob.js sees to work.
+      TODO: Android native browser still doesn't pass tests.
+    -->
     <script src="/blob/Blob.js"></script>
 
     <!-- Vendor scripts -->
