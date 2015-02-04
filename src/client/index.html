@@ -18,7 +18,10 @@
       </form>
     </div>
 
+    <!-- Polyfills -->
+    <script src="/blob/Blob.js"></script>
 
+    <!-- Vendor scripts -->
     <script src="/mocha/mocha.js"></script>
     <script src="/jQuery/dist/jquery.min.js"></script>
     <script src="/chai/chai.js"></script>
@@ -26,7 +29,11 @@
     <script>
       mocha.setup('bdd')
     </script>
+
+    <!-- Tests -->
     <script src="tests.js"></script>
+
+    <!-- Run! -->
     <script>
       $(function() {mocha.run();})
     </script>
