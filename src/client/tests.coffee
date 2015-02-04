@@ -404,7 +404,6 @@ describe 'jQuery + FormData', ->
           .and.have.property 'size'
           .that.is.eql blob.size
 
-        ###*
         # Our server also decodes each file and responds with it's text content.
         # Again see /src/server/index.coffee for better insight.
         expect(res).to
@@ -415,10 +414,8 @@ describe 'jQuery + FormData', ->
           .that.is.a 'string'
           .and.is.eql json
 
-        ###*
         # The object stored in a file is intact.
         # We can parse it as JSON and get our data back!
-        ###
         parsed = JSON.parse res.decoded.data
         expect parsed
           .to.be.an 'object'
