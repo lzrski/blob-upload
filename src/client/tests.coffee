@@ -462,7 +462,8 @@ describe 'PostMessage API', ->
       blob = new Blob [json], type: 'application/json'
 
       # Prepare form data from existing form
-      form = new FormData document.getElementById 'form'
+      # TODO: Interestingly, Chrome doesn't complain if element passed to FormData constructor isn't a form. Firefox does though. Investigate and maybe file an issue.
+      form = new FormData document.getElementById 'sample-form'
 
       # Append our blob
       # it will be seen as a file by server
