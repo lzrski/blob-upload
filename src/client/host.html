@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PostMessage integration example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/mocha/mocha.css" />
+  </head>
+  <body>
+
+
+    <div id="mocha"></div>
+
+    <div id='form' style='margin: 0 60px'>
+      <form action="/" id="sample-form">
+        <h3>Example form</h3>
+        <p><input type="number" name="weight" value=6></p>
+        <p><input type="text" name='name' value='Scoobie'></p>
+        <p><button type='submit'>Save</button></p>
+      </form>
+    </div>
+
+    <!--
+      Let's pretend there is an embeded application here.
+      It could be hosted at some different domain.
+    -->
+    <div style='margin: 0 60px'>
+      <h3>iFrame</h3>
+      <iframe
+        src="/application.html"
+        id='appframe'
+        style="width: 100%">
+
+      </iframe>
+    </div>
+
+    <div style='margin: 0 60px'>
+      <h3>Server response</h3>
+      <pre id='response-preview'></pre>
+    </div>
+
+    <!-- And a ribbon! -->
+    <a href="https://github.com/lzrski/blob-upload">
+      <img
+        style="position: absolute; top: 0; left: 0; border: 0;"
+        src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67"
+        alt="Fork me on GitHub"
+        data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png">
+    </a>
+
+    <!-- Polyfills -->
+    <!--
+      A blob polyfill is needed for some mobile browsers and older IEs.
+      The one from https://github.com/eligrey/Blob.js sees to work.
+      TODO: Android native browser still doesn't pass tests.
+    -->
+    <script src="/blob/Blob.js"></script>
+
+    <!-- Vendor scripts -->
+    <script src="/mocha/mocha.js"></script>
+    <script src="/jQuery/dist/jquery.min.js"></script>
+    <script src="/chai/chai.js"></script>
+    <script src="/lodash/lodash.min.js"></script>
+    <script>
+      mocha.setup('bdd')
+    </script>
+
+    <!-- Tests -->
+    <script src="submit.js"></script>
+
+  </body>
+</html>
