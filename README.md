@@ -3,6 +3,10 @@ Blob upload test suit
 
 This is a test suit showing that in most browsers it is possible to upload arbitrary data (e.g. created procedurally by a script) using multipart/form-data encoding, so that it will *look* to the server as if file was uploaded.
 
+You can run this tests by visiting http://blob.lazurski.pl/
+
+There is also a sample application here http://blob.lazurski.pl/host.html
+
 There are two methods for that covered here:
 
   1.  Using native XMLHttpRequest API

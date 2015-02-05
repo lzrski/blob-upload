@@ -9,6 +9,9 @@
   <body>
 
 
+    <div style='margin: 120px 60px'>
+      <a href="host.html">See interactive demo</a>
+    </div>
     <div id="mocha"></div>
     <div id='form' style='margin: 0 60px'>
       <form action="/" id="sample-form">
@@ -22,7 +25,15 @@
       Let's pretend there is an embeded application here.
       It could be hosted at some different domain.
     -->
-    <iframe src="/application.html" frameborder="0" id='appframe'></iframe>
+    <div style='margin: 0 60px'>
+      <h3>iFrame</h3>
+      <iframe
+        src="/application.html"
+        id='appframe'
+        style="width: 100%">
+
+      </iframe>
+    </div>
 
     <!-- And a ribbon! -->
     <a href="https://github.com/lzrski/blob-upload">
