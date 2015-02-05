@@ -3,7 +3,7 @@ Blob upload test suit
 
 This is a test suit showing that in most browsers it is possible to upload arbitrary data (e.g. created procedurally by a script) using multipart/form-data encoding, so that it will *look* to the server as if file was uploaded.
 
-You can run this tests by visiting http://blob.lazurski.pl/
+You can run this tests in your browser by visiting http://blob.lazurski.pl/ or using BrowserStack via [ModernIE screenshots tool](https://www.modern.ie/en-us/screenshots#http%3A%2F%2Fblob.lazurski.pl).
 
 There is also a sample application here http://blob.lazurski.pl/host.html
 
@@ -57,7 +57,7 @@ This will be handled by the `submit.js` script:
 
 ```javascript
 jQuery(function($) {
-  // When for is to be submitted
+  // When form is to be submitted
   $('#sample-form').submit(function(event) {
     var app, data, form, frame;
     event.preventDefault();
@@ -101,9 +101,15 @@ jQuery(function($) {
   });
 ```
 
+To work on some legacy browsers [Blob.js polyfill][] is required:
+
+```html
+<script src='//cdn.rawgit.com/eligrey/Blob.js/master/Blob.js'></script>
+```
 
 [PostMessage API]: https://developer.mozilla.org/en-US/docs/Web/API/Window.postMessage
 [origin]: https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
 [FormData]: https://developer.mozilla.org/en-US/docs/Web/API/FormData
 [File]: https://developer.mozilla.org/en-US/docs/Web/API/File
 [Blob]: https://developer.mozilla.org/en-US/docs/Web/API/Blob
+[Blob.js polyfill]: https://github.com/eligrey/Blob.js
