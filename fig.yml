@@ -3,4 +3,4 @@ web:
   volumes     : [".:/app"]
   working_dir : "/app"
   command     : "node build/server"
-  ports       : ["7367:8000"]
+  ports       : ["8000:8000"]
