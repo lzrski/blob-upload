@@ -26,7 +26,7 @@ along with data attachement*
 ```
 
 See
-  * [src/client/iai-shop.coffee]()
-  * [src/client/funcase.coffee]()
+  * [src/client/iai-shop.coffee](src/client/iai-shop.coffee)
+  * [src/client/funcase.coffee](src/client/funcase.coffee)
 
 for compiled javascript, [see this gist](https://gist.github.com/lzrski/7bee05d43d1eb0bcd942). Comments are only in coffee-script files. Sorry.
