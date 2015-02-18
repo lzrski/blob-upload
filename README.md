@@ -3,9 +3,12 @@ Funcase - IAI shop communication model
 
 Each post message has following structure:
 
-  `type`  : 'hello' or 'init' or 'get data' or 'data' *string*
-  `body`  : {} *everything else, optional*
-
+```javascript
+{
+  type  : 'string', // 'hello', 'init', 'get data' or 'data',
+  body  : {} // everything else, optional
+}
+```
 The communication goes like this (postMessages):
 
 ```
