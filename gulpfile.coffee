@@ -11,7 +11,7 @@ cp      = require 'child_process'
 
 paths   =
   src   : 'src/**/*.coffee'
-  assets: 'src/**/*.{html,css}'
+  assets: 'src/**/*.{html,css,png,jpg,jpeg}'
   test  : 'test/*.coffee'
   dest  : 'build/'
 
