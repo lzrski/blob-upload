@@ -12,13 +12,13 @@ IAI Shop                Funcase
     |------- init ------->
                         *funcase is initializing*
                         *user plays with it*
-                
+
 *form.submit*
     ----- get data ------>|
                         *data is gathered*
     <------- data --------|
 *item is added to cart
-along with data attachemtn*
+along with data attachement*
 ###
 
 
